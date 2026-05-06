@@ -5,12 +5,16 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  /* Rich reddish page-wide tint — matches the warm glow below the header */
   background:
-    radial-gradient(ellipse 72% 52% at 12% 88%, rgba(120, 40, 220, .055) 0%, transparent 62%),
-    radial-gradient(ellipse 52% 40% at 88% 12%, rgba(40, 100, 220, .045) 0%, transparent 58%),
-    radial-gradient(ellipse 62% 48% at 52% 102%, rgba(204, 17, 17, .04) 0%, transparent 62%),
-    radial-gradient(ellipse 38% 32% at 90% 68%, rgba(10, 160, 120, .028) 0%, transparent 55%),
-    radial-gradient(ellipse 45% 38% at 5% 30%,  rgba(60, 60, 200, .032) 0%, transparent 58%);
+    radial-gradient(ellipse 100% 60% at 50% 0%,   rgba(204, 17, 17, .13) 0%, transparent 55%),
+    radial-gradient(ellipse 80%  55% at 50% 100%, rgba(136,  0,  0, .10) 0%, transparent 60%),
+    radial-gradient(ellipse 70%  50% at 15% 50%,  rgba(180, 10, 10, .07) 0%, transparent 55%),
+    radial-gradient(ellipse 70%  50% at 85% 50%,  rgba(180, 10, 10, .07) 0%, transparent 55%),
+    radial-gradient(ellipse 55%  42% at 50% 50%,  rgba(204, 17, 17, .05) 0%, transparent 65%),
+    radial-gradient(ellipse 72%  52% at 12% 88%,  rgba(120, 40, 220, .03) 0%, transparent 62%),
+    radial-gradient(ellipse 52%  40% at 88% 12%,  rgba(40, 100, 220, .025) 0%, transparent 58%);
+  backdrop-filter: blur(0px);
   animation: auroraFloat 28s ease-in-out infinite alternate;
 }
 

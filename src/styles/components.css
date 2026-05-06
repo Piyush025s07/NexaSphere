@@ -183,20 +183,33 @@
 }
 
 .ns-nav-divider { width:1px; height:24px; background:var(--bdr2); flex-shrink:0; }
+
+/* NexaSphere brand text — glowing red so it’s clearly visible in dark mode
+   even against the hero-logo spotlight effect */
 .ns-nav-brand {
-  font-family:'Orbitron',monospace; font-size:1.05rem; font-weight:900; letter-spacing:.08em;
-  background:linear-gradient(135deg,var(--c1),var(--c2));
+  font-family:'Orbitron',monospace; font-size:1.12rem; font-weight:900; letter-spacing:.10em;
+  background:linear-gradient(135deg,#FF5555 0%,#EE2222 50%,#CC1111 100%);
   -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  /* Multi-layer red glow — punches through the spotlight behind the logo */
+  filter:
+    drop-shadow(0 0  6px rgba(238, 34, 34, 1.0))
+    drop-shadow(0 0 14px rgba(204, 17, 17, 0.9))
+    drop-shadow(0 0 28px rgba(136,  0,  0, 0.7));
   transition:transform .2s ease, filter .2s ease !important;
 }
 .ns-nav-brand:hover {
-  transform:scale(1.05);
-  filter:brightness(1.2) drop-shadow(0 0 12px var(--c1g));
+  transform:scale(1.06);
+  filter:
+    drop-shadow(0 0  8px rgba(255, 85, 85, 1.0))
+    drop-shadow(0 0 20px rgba(238, 34, 34, 1.0))
+    drop-shadow(0 0 40px rgba(204, 17, 17, 0.85)) !important;
 }
 [data-theme="light"] .ns-nav-brand {
   background:linear-gradient(135deg,#CC1111,#AA0000);
   -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  filter: none;
 }
+
 .ns-nav-tabs { display:flex; align-items:center; gap:0; list-style:none; }
 .ns-nav-tab {
   position:relative; padding:8px 15px;
