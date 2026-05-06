@@ -273,11 +273,11 @@
 .hero-overlay { position:absolute; inset:0; background:radial-gradient(ellipse 75% 50% at 50% 35%,rgba(204,17,17,.04) 0%,rgba(10,10,10,.6) 65%,rgba(10,10,10,.97) 100%); z-index:1; }
 [data-theme="light"] .hero-overlay { background:radial-gradient(ellipse 80% 55% at 50% 35%, rgba(255,245,245,.50) 0%, rgba(255,255,255,.85) 65%, rgba(255,255,255,.97) 100%); }
 .hero-content { position:relative; z-index:2; text-align:center; padding:0 20px; }
-.hero-logo-wrap { position:relative; display:inline-block; margin-bottom:28px; width:270px; height:270px; }
+.hero-logo-wrap { position:relative; display:inline-block; margin-bottom:8px; width:200px; height:200px; }
 .hero-logo-img {
   position:relative; z-index:1;
-  width:210px; height:210px; object-fit:contain;
-  margin:30px auto 0; display:block;
+  width:175px; height:175px; object-fit:contain;
+  margin:12px auto 0; display:block;
   mix-blend-mode:screen;
   filter: brightness(1.8) saturate(1.5) drop-shadow(0 0 30px rgba(204,17,17,.75)) drop-shadow(0 0 60px rgba(238,34,34,.45));
   animation:float 5s ease-in-out infinite;

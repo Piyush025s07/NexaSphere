@@ -31,12 +31,10 @@ function HeroTitle({ isLight }) {
 
 /* â”€â”€ SVG Orbit rings â”€â”€ */
 function OrbitRings({ isLight }) {
-  const rings = isLight
-    ? [{rx:105,ry:48,dur:8,r:2,col:'204,17,17',d:'0s'},{rx:58,ry:182,dur:13,r:1.5,col:'136,0,0',d:'-5s'},{rx:162,ry:37,dur:17,r:1,col:'238,34,34',d:'-9s'},{rx:78,ry:158,dur:6,r:2,col:'255,68,68',d:'-2s'}]
-    : [{rx:105,ry:48,dur:8,r:2,col:'204,17,17',d:'0s'},{rx:58,ry:182,dur:13,r:1.5,col:'136,0,0',d:'-5s'},{rx:162,ry:37,dur:17,r:1,col:'238,34,34',d:'-9s'},{rx:78,ry:158,dur:6,r:2,col:'255,68,68',d:'-2s'}];
+  const rings = [{rx:72,ry:33,dur:8,r:1.4,col:'204,17,17',d:'0s'},{rx:40,ry:112,dur:13,r:1.1,col:'136,0,0',d:'-5s'},{rx:110,ry:26,dur:17,r:0.8,col:'238,34,34',d:'-9s'},{rx:54,ry:100,dur:6,r:1.4,col:'255,68,68',d:'-2s'}];
   const tilts=['rotate(-22 250 250)','rotate(14 250 250)','rotate(55 250 250)','rotate(-35 250 250)'];
   return (
-    <svg width="280" height="280" viewBox="0 0 500 500"
+    <svg width="180" height="180" viewBox="0 0 500 500"
       data-parallax="8"
       style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',pointerEvents:'none',zIndex:0,overflow:'visible'}}>
       {rings.map((rg,i)=>(
@@ -176,7 +174,7 @@ export default function HeroSection({ onTabChange, onApply, onJoin, theme = 'dar
       }} />
       <Atmosphere isLight={isLight}/>
 
-      <div className="hero-content" style={{position:'relative',zIndex:2,paddingBottom:'80px'}}>
+      <div className="hero-content" style={{position:'relative',zIndex:2,paddingBottom:'40px'}}>
         <Logo3D ready={ready} isLight={isLight}/>
         <HeroTitle isLight={isLight}/>
 
