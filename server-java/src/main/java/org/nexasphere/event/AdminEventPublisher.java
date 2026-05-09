@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service("legacyAdminEventPublisher")
 @Slf4j
 public class AdminEventPublisher {
 

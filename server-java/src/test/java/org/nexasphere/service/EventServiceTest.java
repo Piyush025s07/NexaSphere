@@ -14,6 +14,7 @@ import org.nexasphere.model.events.EventDeletedEvent;
 import org.nexasphere.model.events.EventUpdatedEvent;
 import org.nexasphere.repository.EventRepository;
 import org.nexasphere.service.crud.EventService;
+import org.nexasphere.util.Sanitizer;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -30,6 +31,7 @@ class EventServiceTest {
 
     @Mock EventRepository repo;
     @Mock AdminEventPublisher publisher;
+    @Mock Sanitizer sanitizer;
     @InjectMocks EventService service;
 
     private EventEntity sampleEvent() {
@@ -52,6 +54,7 @@ class EventServiceTest {
 
         when(repo.existsById(anyString())).thenReturn(false);
         when(repo.save(any())).thenReturn(saved);
+        when(sanitizer.clean(anyString())).thenAnswer(inv -> inv.getArgument(0));
 
         EventEntity result = service.createEvent(input, "admin@test.com");
 
@@ -67,6 +70,7 @@ class EventServiceTest {
         EventEntity input = sampleEvent();
         when(repo.existsById(anyString())).thenReturn(true);
         when(repo.save(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(sanitizer.clean(anyString())).thenAnswer(inv -> inv.getArgument(0));
 
         EventEntity result = service.createEvent(input, "admin@test.com");
 
@@ -87,6 +91,7 @@ class EventServiceTest {
 
         when(repo.findById("kss-154")).thenReturn(Optional.of(existing));
         when(repo.save(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(sanitizer.clean(anyString())).thenAnswer(inv -> inv.getArgument(0));
 
         EventEntity result = service.updateEvent("kss-154", updates, "admin@test.com");
 

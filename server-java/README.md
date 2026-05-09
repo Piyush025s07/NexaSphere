@@ -319,7 +319,6 @@ GET  /api/content/events
 GET  /api/content/events/{id}
 GET  /api/content/activity-events/{activityKey}
 GET  /api/content/core-team
-GET  /api/content/core-team/{id}
 POST /api/forms/membership
 POST /api/forms/recruitment
 POST /api/core-team/apply
@@ -336,8 +335,8 @@ POST   /api/admin/events
 PUT    /api/admin/events/{id}
 DELETE /api/admin/events/{id}
 
+GET    /api/admin/core-team
 POST   /api/admin/core-team
-PUT    /api/admin/core-team/{id}
 DELETE /api/admin/core-team/{id}
 
 POST   /api/admin/login

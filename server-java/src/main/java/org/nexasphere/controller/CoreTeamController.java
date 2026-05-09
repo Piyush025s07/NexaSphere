@@ -1,49 +1,52 @@
 package org.nexasphere.controller;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.nexasphere.model.entity.CoreTeamMemberEntity;
-import org.nexasphere.repository.CoreTeamRepository;
-import org.nexasphere.util.Sanitizer;
+import org.nexasphere.service.crud.CoreTeamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/admin/core-team")
+@RequiredArgsConstructor
 @Slf4j
 public class CoreTeamController {
 
-    private final CoreTeamRepository repo;
+    private final CoreTeamService coreTeamService;
 
-    public CoreTeamController(CoreTeamRepository repo) {
-        this.repo = repo;
+    @GetMapping("/api/content/core-team")
+    public ResponseEntity<List<CoreTeamMemberEntity>> getPublicCoreTeam() {
+        log.info("Fetching public core team members");
+        return ResponseEntity.ok(coreTeamService.getAllMembers());
     }
 
-    @GetMapping
-    public ResponseEntity<List<CoreTeamMemberEntity>> getAll() {
-        log.info("Fetching all core team members");
-        return ResponseEntity.ok(repo.findAll());
+    @GetMapping("/api/admin/core-team")
+    public ResponseEntity<List<CoreTeamMemberEntity>> getAdminCoreTeam() {
+        log.info("Fetching admin core team members");
+        return ResponseEntity.ok(coreTeamService.getAllMembers());
     }
 
-    @PostMapping
-    public ResponseEntity<CoreTeamMemberEntity> add(@Valid @RequestBody CoreTeamMemberEntity member) {
+    @PostMapping("/api/admin/core-team")
+    public ResponseEntity<CoreTeamMemberEntity> addMember(
+            @Valid @RequestBody CoreTeamMemberEntity member,
+            @AuthenticationPrincipal String adminEmail) {
         log.info("Adding new core team member: {}", member.getName());
-        member.setId(null);
-        member.setName(Sanitizer.clean(member.getName()));
-        return ResponseEntity.status(HttpStatus.CREATED).body(repo.save(member));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(coreTeamService.addMember(member, adminEmail));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> remove(@PathVariable Long id) {
+    @DeleteMapping("/api/admin/core-team/{id}")
+    public ResponseEntity<Map<String, Boolean>> removeMember(
+            @PathVariable Long id,
+            @AuthenticationPrincipal String adminEmail) {
         log.info("Removing core team member ID: {}", id);
-        if (!repo.existsById(id)) {
-            log.warn("Member ID {} not found for removal", id);
-            return ResponseEntity.notFound().build();
-        }
-        repo.deleteById(id);
-        return ResponseEntity.noContent().build();
+        coreTeamService.removeMember(id, adminEmail);
+        return ResponseEntity.ok(Map.of("ok", true));
     }
 }

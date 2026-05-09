@@ -332,8 +332,8 @@ VITE_API_BASE=http://localhost:8080
 | `POST`   | `/api/admin/events`         | Create new event        |
 | `PUT`    | `/api/admin/events/{id}`    | Update existing event   |
 | `DELETE` | `/api/admin/events/{id}`    | Delete event            |
+| `GET`    | `/api/admin/core-team`      | List core team members  |
 | `POST`   | `/api/admin/core-team`      | Create core team member |
-| `PUT`    | `/api/admin/core-team/{id}` | Update core team member |
 | `DELETE` | `/api/admin/core-team/{id}` | Delete core team member |
 
 <br/>
@@ -725,4 +725,3 @@ All rights reserved. Not for external distribution.
 **Version 1.0** | Last Updated: May 2026
 
 </div>
-
