@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { BannerOrbs } from '../../shared/MotionLayer';
 import * as LucideIcons from 'lucide-react';
 import { 
-  Lightbulb, Users, BookOpen, Seedling, Globe, Zap, 
+  Lightbulb, Users, BookOpen, Leaf, Globe, Zap,
   Target, Rocket, Brain, Telescope, MessageSquare, Link, Mail, ArrowLeft 
 } from 'lucide-react';
 
@@ -19,7 +19,7 @@ const values = [
   { label: 'Innovation', icon: 'Lightbulb', desc: 'Pushing boundaries and exploring what\'s possible.' },
   { label: 'Collaboration', icon: 'Users', desc: 'Building together is always better than building alone.' },
   { label: 'Learning', icon: 'BookOpen', desc: 'Every session, event, and conversation is a lesson.' },
-  { label: 'Growth', icon: 'Seedling', desc: 'Personal and professional development at every step.' },
+  { label: 'Growth', icon: 'Leaf', desc: 'Personal and professional development at every step.' },
   { label: 'Community', icon: 'Globe', desc: 'A tight-knit circle of people who lift each other up.' },
   { label: 'Technology', icon: 'Zap', desc: 'Technology is our language and our playground.' },
 ];
