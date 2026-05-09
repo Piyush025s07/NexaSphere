@@ -1,3 +1,5 @@
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import { useState } from 'react';
 import { api } from '../services/api';
 
@@ -50,7 +52,11 @@ export function ActivityEventForm({ activityKey, onClose }) {
           </div>
           <div className="form-row">
             <label>Description</label>
-            <textarea value={form.description} onChange={e => set('description', e.target.value)} rows={3} />
+            <ReactQuill
+             theme="snow"
+             value={form.description}
+             onChange={(value) => set('description', value)}
+            />
           </div>
           {error && <div className="form-error">{error}</div>}
           <div className="form-actions">
