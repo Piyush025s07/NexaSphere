@@ -23,7 +23,7 @@ import Chatbot from './shared/Chatbot';
 
 import {
   AmbientOrbs, SectionDivider,
-  useNsReveal, useHeroParallax,
+  useScrollProgress, useNsReveal, useHeroParallax,
   useNavScrollTint, useGlobalMouseParallax, useMagneticCards,
 } from './shared/MotionLayer';
 
@@ -35,6 +35,8 @@ import ContactPage from './pages/contact/ContactPage';
 import RecruitmentPage from './pages/recruitment/RecruitmentPage';
 import MembershipPage from './pages/membership/MembershipPage';
 import NotFoundPage from './pages/NotFoundPage';
+import type { ActivityKey } from './types/activities';
+import type { ActivityEvent, Event } from './types/api';
 
 import { activityPages } from './data/activities/index';
 import { events as fallbackEvents } from './data/eventsData';
@@ -218,10 +220,10 @@ export default function App(): ReactNode {
   const [mobile,   setMobile]   = useState(window.innerWidth<=768);
   const [wipeOn,   setWipeOn]   = useState(false);
   const [wipePh,   setWipePh]   = useState('out');
-  const [page,     setPage]     = useState(null);
+  const [page,     setPage]     = useState<PageState>(null);
   const [theme,    setTheme]    = useState(()=>localStorage.getItem('ns-theme')||'dark');
-  const [eventsData,setEventsData]=useState([]);
-  const [teamData,  setTeamData]  = useState([]);
+  const [eventsData,setEventsData]=useState<any[]>([]);
+  const [teamData,  setTeamData]  = useState<any[]>([]);
   const [loading,  setLoading]   = useState(true);
   const isAdminRoute = typeof window !== 'undefined' && window.location.pathname === '/admin';
   // Apply theme to html element
@@ -380,16 +382,16 @@ export default function App(): ReactNode {
   },[nav]);
 
   const onEvent=useCallback((ev: ActivityEvent): void=>{
-    nav(()=>setPage(p=>({...(p && 'activityKey' in p ? { activityKey: p.activityKey } : {}),type:'event',event:ev})));
+    nav(()=>setPage((p: any)=>({...(p && 'activityKey' in p ? { activityKey: p.activityKey } : {}),type:'event',event:ev})));
   },[nav]);
 
-  const onKSSClick=useCallback((ev: Event): void=>{
+  const onKSSClick=useCallback((ev: any): void=>{
     // Show KSS event detail page with Insight Session as activity context
     nav(()=>setPage({type:'event',activityKey:'Insight Session',event:ev}));
   },[nav]);
 
   const onBackAct=useCallback((): void=>{
-    nav(()=>setPage(p=>({type:'activity',activityKey:(p && 'activityKey' in p && p.activityKey ? p.activityKey : 'Insight Session')})));
+    nav(()=>setPage((p: any)=>({type:'activity',activityKey:(p && 'activityKey' in p && p.activityKey ? p.activityKey : 'Insight Session')})));
   },[nav]);
 
   const onBackMain=useCallback(()=>{
@@ -420,7 +422,8 @@ export default function App(): ReactNode {
   },[nav]);
 
   const nh=mobile?MNH:DNH;
-  const cur=page && 'activityKey' in page && page.activityKey ? activityPages[page.activityKey] : null;
+  const pg = page as any;
+  const cur=pg && 'activityKey' in pg && pg.activityKey ? (activityPages as any)[pg.activityKey] : null;
 
   return (
     <>
@@ -501,16 +504,16 @@ export default function App(): ReactNode {
             <SectionDivider />
             <ActivitiesSection onNavigate={onNavigate} />
             <SectionDivider />
-            <EventsSection onEventClick={onKSSClick} events={eventsData} />
+            <EventsSection onEventClick={onKSSClick as any} events={eventsData} />
             <SectionDivider />
             <AboutSection />
             <SectionDivider />
             <TeamSection onApply={openApply} />
-            <Footer activeTab={activeTab} onTabChange={onTab} />
+            <Footer />
           </PageIn>
         )}
 
-        {page && page.type !== 'section' && page.type !== 'activity' && page.type !== 'event' && page.type !== 'apply' && page.type !== 'join' && (
+        {pg && pg.type !== 'section' && pg.type !== 'activity' && pg.type !== 'event' && pg.type !== 'apply' && pg.type !== 'join' && (
           <PageIn k="404">
             <NotFoundPage onBackHome={onBackHome} />
           </PageIn>
