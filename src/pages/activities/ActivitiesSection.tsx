@@ -62,7 +62,7 @@ function ActivityCard({
     >
       <div className="card-accent-line" />
       <div className="card-num">{String(idx + 1).padStart(2, '0')}</div>
-      <div className="activity-icon pop-in fired" style={{ animationDelay: `${0.2 + idx * 0.1}s` }}><DynamicIcon name={a.icon} size={32} /></div>
+      <div className="activity-icon"><DynamicIcon name={a.icon} size={32} /></div>
       <div className="activity-title">{a.title}</div>
       <p className="activity-desc">{a.description}</p>
       {a.comingSoon ? (
