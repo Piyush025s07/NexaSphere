@@ -2,6 +2,7 @@ import { type ReactNode, useEffect } from 'react';
 import { events as fallbackEvents } from '../../data/eventsData';
 import * as LucideIcons from 'lucide-react';
 import type { Event as CoreEvent } from '../../types/api';
+import './EventsSection.css';
 
 function DynamicIcon({ name, ...props }: { name: string; [key: string]: any }) {
   const Icon = (LucideIcons as any)[name] || LucideIcons.HelpCircle;
@@ -35,11 +36,11 @@ export default function EventsSection({
             Where Ideas Come to Life
           </p>
         </div>
-        
+
         <div className="events-timeline">
           {events.map((ev, i) => {
             const isKSS = ev.id === 1 || ev.id === 'kss-153' || String(ev.shortName || '').toLowerCase().includes('kss');
-            
+
             return (
               <div className="timeline-item" key={ev.id}>
                 <div className={`timeline-dot${ev.status === 'upcoming' ? ' upcoming' : ''}`} />
@@ -51,8 +52,8 @@ export default function EventsSection({
                   }}
                   onClick={isKSS ? () => onEventClick?.(ev) : undefined}
                 >
-                  <div style={{display:'flex',alignItems:'center',gap:'10px',marginBottom:'7px'}}>
-                    <div style={{color: isKSS ? '#a855f7' : 'var(--c1)', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '7px' }}>
+                    <div style={{ color: isKSS ? '#a855f7' : 'var(--c1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <DynamicIcon name={ev.icon} size={22} />
                     </div>
                     <div className="timeline-event-name" style={isKSS ? { color: '#a855f7' } : {}}>{ev.name}</div>
@@ -65,12 +66,15 @@ export default function EventsSection({
                       }}>View Details →</span>
                     )}
                   </div>
+
                   <div className="timeline-event-date">
                     <DynamicIcon name="Calendar" size={13} style={{verticalAlign:'middle', marginRight:'6px', opacity:0.8}} />
                     {ev.date}
                   </div>
+
                   <p className="timeline-event-desc">{ev.description}</p>
-                  <div style={{display:'flex',alignItems:'center',gap:'7px',flexWrap:'wrap'}}>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '7px', flexWrap: 'wrap' }}>
                     <span className={`timeline-badge ${ev.status}`}>
                       {ev.status==='completed' ? (
                         <><DynamicIcon name="CheckCircle" size={10} style={{marginRight:4}}/> Completed</>
@@ -86,7 +90,6 @@ export default function EventsSection({
               </div>
             );
           })}
-          
           {events.length > 0 && (
             <div className="timeline-item">
               <div className="timeline-dot upcoming"/>
@@ -98,6 +101,7 @@ export default function EventsSection({
               </div>
             </div>
           )}
+
         </div>
       </div>
     </section>

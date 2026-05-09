@@ -1,8 +1,9 @@
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 32px;
   margin-top: 40px;
+  align-items: stretch;
 }
 
 .team-card {
