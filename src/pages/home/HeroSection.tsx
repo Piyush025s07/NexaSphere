@@ -108,7 +108,7 @@ function Logo3D({ ready, isLight }: { ready: boolean; isLight: boolean }): React
         transform: ready ? 'scale(1)' : 'scale(.3) rotateY(180deg)',
       }}
     >
-      <OrbitRings />
+      <OrbitRings isLight={isLight} />
       <img src={nexasphereLogo} alt="NexaSphere" className="hero-logo-img" />
       <div className="hero-logo-shadow" />
     </div>
@@ -128,7 +128,7 @@ function StatsBar({ vis, isLight }: { vis: boolean; isLight: boolean }): ReactNo
     >
       {items.map((s, i) => (
         <div key={i} className="stats-item">
-          <div className={`home-icon-pop ${vis ? 'pop-in fired' : ''}`} style={{fontSize:'.9rem',marginBottom:'2px', color: 'var(--c1)', transition: 'transform .3s var(--t-smooth)', animationDelay: `${.5+i*.1}s` }}><DynamicIcon name={s.i} size={16} /></div>
+          <div className={`home-icon-pop ${vis ? 'pop-in fired' : ''}`} style={{fontSize:'.9rem',marginBottom:'2px', color: 'var(--c1)', transition: 'transform .3s var(--t-smooth)', animationDelay: `${.5+i*.1}s` }}>{s.i}</div>
           <div 
             className="stats-value"
             style={{
@@ -205,8 +205,8 @@ export default function HeroSection({ onTabChange, onApply, onJoin, theme = 'dar
       <Atmosphere isLight={isLight} />
 
       <div className="hero-content">
-        <Logo3D ready={ready} />
-        <HeroTitle />
+        <Logo3D ready={ready} isLight={isLight} />
+        <HeroTitle isLight={isLight} />
 
         <p className="hero-tagline">
           GL Bajaj&apos;s Student-Driven Tech Ecosystem
@@ -239,7 +239,7 @@ export default function HeroSection({ onTabChange, onApply, onJoin, theme = 'dar
           </div>
         </div>
 
-        <StatsBar vis={statsVis} />
+        <StatsBar vis={statsVis} isLight={isLight} />
       </div>
 
       <div className="hero-bottom-fade" />

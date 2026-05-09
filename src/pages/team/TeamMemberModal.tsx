@@ -1,10 +1,16 @@
 import { type MouseEvent, type ReactNode, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import * as LucideIcons from 'lucide-react';
+import type { CoreTeamMember } from '../../types/api';
+
+export interface TeamMemberModalProps {
+  member: CoreTeamMember | null;
+  onClose: () => void;
+}
 
 /* ── Safe Icon Helper ── */
-function DynamicIcon({ name, ...props }) {
-  const Icon = LucideIcons[name] || LucideIcons.LinkedIn || LucideIcons.Linkedin || LucideIcons.HelpCircle;
+function DynamicIcon({ name, ...props }: { name: string; [key: string]: any }) {
+  const Icon = (LucideIcons as any)[name] || (LucideIcons as any).Linkedin || LucideIcons.HelpCircle;
   return <Icon {...props} />;
 }
 
@@ -115,7 +121,7 @@ function ModalContent({ member, onClose }: { member: CoreTeamMember; onClose: ()
               <DynamicIcon name="Trophy" size={16} /> Achievements
             </div>
             <ul className="modal-achievements-list">
-              {member.achievements.map((ach, idx) => (
+              {member.achievements.map((ach: string, idx: number) => (
                 <li key={idx} className="modal-achievement-item">{ach}</li>
               ))}
             </ul>
@@ -129,7 +135,7 @@ function ModalContent({ member, onClose }: { member: CoreTeamMember; onClose: ()
               <DynamicIcon name="MessageCircle" size={16} /> Testimonials
             </div>
             <ul className="modal-testimonials-list">
-              {member.testimonials.map((t, idx) => (
+              {member.testimonials.map((t: any, idx: number) => (
                 <li key={idx} className="modal-testimonial-item">
                   <span className="testimonial-text">“{t.text}”</span>
                   <span className="testimonial-author">- {t.author}</span>

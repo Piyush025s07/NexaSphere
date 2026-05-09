@@ -24,7 +24,7 @@ export interface ActivityPage {
   upcomingEvents?: ActivityEvent[];
   conductedEvents?: ActivityEvent[];
   events?: Event[];
-  [key: string]: unknown;
+  [key: string]: any;
 }
 
 export interface ActivityStat {

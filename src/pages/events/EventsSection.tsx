@@ -1,6 +1,7 @@
 import { type ReactNode, useEffect } from 'react';
 import { events as fallbackEvents } from '../../data/eventsData';
 import * as LucideIcons from 'lucide-react';
+import type { Event as CoreEvent } from '../../types/api';
 
 function DynamicIcon({ name, ...props }: { name: string; [key: string]: any }) {
   const Icon = (LucideIcons as any)[name] || LucideIcons.HelpCircle;
@@ -14,8 +15,8 @@ export default function EventsSection({
   onEventClick,
   events = fallbackEvents,
 }: {
-  onEventClick?: (event: Event) => void;
-  events?: Event[];
+  onEventClick?: (event: CoreEvent) => void;
+  events?: CoreEvent[];
 }): ReactNode {
   useEffect(()=>{
     const obs=new IntersectionObserver(entries=>{
@@ -77,7 +78,7 @@ export default function EventsSection({
                         <><DynamicIcon name="Clock" size={10} style={{marginRight:4}}/> Upcoming</>
                       )}
                     </span>
-                    {ev.tags?.map(t=>(
+                    {ev.tags?.map((t: string)=>(
                       <span key={t} style={{fontSize:'.68rem',padding:'2px 8px',borderRadius:'10px',background:'var(--c2a)',color:'var(--c2)',border:'1px solid var(--c2b)',fontWeight:600}}>{t}</span>
                     ))}
                   </div>

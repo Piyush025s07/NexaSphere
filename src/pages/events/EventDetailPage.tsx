@@ -1,4 +1,5 @@
-import { useEffect, useState, useRef } from 'react';
+import { type ReactNode, useEffect, useState, useRef } from 'react';
+import type { EventDetailPageProps } from '../../types/components';
 import * as LucideIcons from 'lucide-react';
 
 interface DetailStat {
@@ -53,12 +54,12 @@ function hexToRgb(hex: string): string {
   return `${parseInt(hex.slice(1,3),16)},${parseInt(hex.slice(3,5),16)},${parseInt(hex.slice(5,7),16)}`;
 }
 
-function DynamicIcon({ name, ...props }) {
-  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+function DynamicIcon({ name, ...props }: { name: string; [key: string]: any }) {
+  const Icon = (LucideIcons as any)[name] || LucideIcons.HelpCircle;
   return <Icon {...props} />;
 }
 
-function Typewriter({ text, speed = 10 }) {
+function Typewriter({ text, speed = 10 }: { text: string; speed?: number }): ReactNode {
   const [displayed, setDisplayed] = useState('');
   const [done, setDone] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
@@ -127,7 +128,7 @@ function StatCard({ label, value, color }: { label: string; value: string; color
   );
 }
 
-function SectionHeader({ icon: Icon, title, color }) {
+function SectionHeader({ icon: Icon, title, color }: { icon: any; title: string; color: string }): ReactNode {
   const rgb = hexToRgb(color);
   return (
     <h2 style={{
@@ -147,7 +148,7 @@ function SectionHeader({ icon: Icon, title, color }) {
   );
 }
 
-function PersonChip({ name, role, color, icon }) {
+function PersonChip({ name, role, color, icon }: { name: string; role?: string; color: string; icon?: string }): ReactNode {
   const [hovered, setHovered] = useState(false);
   const rgb = hexToRgb(color);
   return (
@@ -348,7 +349,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
               fontSize: '0.78rem', color, fontFamily: 'Rajdhani,sans-serif',
               fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em',
             }}>
-              {typeof activityIcon === 'string' ? <DynamicIcon name={activityIcon} size={14} /> : <DynamicIcon name={activityIcon.name || 'Zap'} size={14} />} {event.shortName || event.name}
+              <DynamicIcon name={activityIcon} size={14} /> {detailEvent.shortName || detailEvent.name}
             </div>
 
             <h1 style={{
@@ -372,7 +373,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
             )}
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap', marginBottom: '28px', marginTop: '12px' }}>
-              <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px' }}><DynamicIcon name="Calendar" size={14} /> {event.date}</span>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px' }}><DynamicIcon name="Calendar" size={14} /> {detailEvent.date}</span>
               <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px' }}><DynamicIcon name="MapPin" size={14} /> GL Bajaj Group of Institutions, Mathura</span>
               <span style={{
                 fontSize: '0.72rem', padding: '3px 12px', borderRadius: '20px',
@@ -419,7 +420,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
           <section>
             <SectionHeader icon="Mic" title="Presenters" color={color} />
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              {event.topics?.map((t, i) => (
+              {detailEvent.topics?.map((t: Topic, i: number) => (
                 <PersonChip key={i} name={t.speaker} role="Presenter" color={color} icon="User" />
               ))}
             </div>
@@ -438,11 +439,11 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
             <section>
               <SectionHeader icon="Video" title="Video Presentors & Anchor" color={color} />
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                {event.videoPresenter?.map((p, i) => (
+                {detailEvent.videoPresenter?.map((p: Participant, i: number) => (
                   <PersonChip key={i} name={p.name} role={p.role} color={color} icon="Video" />
                 ))}
-                {event.anchor && (
-                  <PersonChip name={event.anchor.name} role={event.anchor.role} color={color} icon="Mic" />
+                {detailEvent.anchor && (
+                  <PersonChip name={detailEvent.anchor.name} role={detailEvent.anchor.role} color={color} icon="Mic" />
                 )}
               </div>
             </section>
@@ -453,7 +454,7 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
             <section>
               <SectionHeader icon="Zap" title="Volunteers — The Unsung Heroes" color={color} />
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                {event.volunteers.map((v, i) => (
+                {detailEvent.volunteers?.map((v: Participant, i: number) => (
                   <PersonChip key={i} name={v.name} role="Volunteer" color={color} icon="Zap" />
                 ))}
               </div>
@@ -474,8 +475,8 @@ export default function EventDetailPage({ event, activityColor, activityIcon, on
           <section>
             <SectionHeader icon="Camera" title="Photos & Videos" color={color} />
             <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-              <MediaBtn href={event.photoLink} icon="Camera" label="View Photos" color={color} />
-              <MediaBtn href={event.videoLink} icon="Play" label="Watch Recording" color={color} />
+              <MediaBtn href={detailEvent.photoLink} icon="Camera" label="View Photos" color={color} />
+              <MediaBtn href={detailEvent.videoLink} icon="Play" label="Watch Recording" color={color} />
             </div>
             {!detailEvent.photoLink && !detailEvent.videoLink && (
               <p style={{ color: 'var(--text-muted)', fontSize: '0.78rem', marginTop: '12px', fontStyle: 'italic' }}>

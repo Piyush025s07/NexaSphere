@@ -1,5 +1,11 @@
 import { type ReactNode, useEffect, useRef } from 'react';
 
+const LIGHT_ALPHA = 0.35;
+const DARK_ALPHA = 0.55;
+const GRID_SIZE = 75;
+const GLOW_1_RADIUS = 300;
+const GLOW_2_RADIUS = 400;
+
 // Responsive, animated grid + geometric shapes + glows
 export default function GeometricGridBackground({ theme = 'dark' }: { theme?: string }): ReactNode {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);

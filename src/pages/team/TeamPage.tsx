@@ -2,11 +2,13 @@ import { type KeyboardEvent, type MouseEvent, type ReactNode, useState, useRef, 
 import { createPortal } from 'react-dom';
 import TeamMemberModal from './TeamMemberModal';
 import { BannerOrbs } from '../../shared/MotionLayer';
+// @ts-expect-error Skeleton is in jsx
 import Skeleton from '../../shared/Skeleton';
 import * as LucideIcons from 'lucide-react';
+import type { CoreTeamMember } from '../../types/api';
 
-function DynamicIcon({ name, ...props }) {
-  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+function DynamicIcon({ name, ...props }: { name: string; [key: string]: any }) {
+  const Icon = (LucideIcons as any)[name] || LucideIcons.HelpCircle;
   return <Icon {...props} />;
 }
 
@@ -89,15 +91,20 @@ function MemberSkeleton() {
   );
 }
 
-export default function TeamPage({ onBack, onApply, team = [], loading = false }) {
-  const [sel, setSel] = useState(null);
+export default function TeamPage({ onBack, onApply, team = [], loading = false }: {
+  onBack: () => void;
+  onApply: () => void;
+  team: CoreTeamMember[];
+  loading: boolean;
+}): ReactNode {
+  const [sel, setSel] = useState<CoreTeamMember | null>(null);
 
   useEffect(() => { window.scrollTo({ top: 0 }); }, []);
 
   const organiser = team.filter(m => m.role === 'Organiser' || m.role === 'Co-organiser');
   const coreTeam  = team.filter(m => m.role === 'Core Team Member');
 
-  const renderSection = (title, members, colorClass, startIdx) => (
+  const renderSection = (title: string, members: CoreTeamMember[], colorClass: string, startIdx: number) => (
     <div style={{ marginBottom: '52px' }}>
       <div style={{
         fontFamily: "'Orbitron', monospace", fontSize: '.68rem', fontWeight: 700,
@@ -121,7 +128,7 @@ export default function TeamPage({ onBack, onApply, team = [], loading = false }
         </div>
       ) : (
         <div className={title === 'Leadership' ? '' : 'team-grid'} style={title === 'Leadership' ? { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(175px, 1fr))', gap: '16px', maxWidth: '500px', margin: '0 auto' } : {}}>
-          {members.map((m, i) => <MemberCard key={m.id} member={m} idx={i + startIdx} onClick={setSel} />)}
+          {members.map((m: CoreTeamMember, i: number) => <MemberCard key={m.id} member={m} idx={i + startIdx} onClick={setSel} />)}
         </div>
       )}
     </div>

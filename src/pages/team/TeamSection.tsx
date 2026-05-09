@@ -37,19 +37,14 @@ function MemberCard({ member, idx, onClick }: {
       ref={ref}
       className="team-card shimmer mag-card"
       style={{
-        animationDelay: `${ANTI_GRAVITY_DELAYS[idx % 12]}s`,
+        animation: `ag 7s ease-in-out ${agDelay[idx % 12]}s infinite`,
       }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleClick}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      onClick={click}
       role="button"
       tabIndex={0}
-      onKeyDown={e => {
-        if (e.key === 'Enter' || e.key === ' ') handleClick();
-      }}
-      onMouseMove={onMove} onMouseLeave={onLeave} onClick={click}
-      role="button" tabIndex={0}
-      onKeyDown={(e: KeyboardEvent<HTMLDivElement>)=>{if(e.key==='Enter'||e.key===' ')click();}}
+      onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => { if (e.key === 'Enter' || e.key === ' ') click(); }}
     >
       <div className="team-card-photo-wrap">
         <img src={member.photo} alt={member.name} className="team-card-photo" />
@@ -99,7 +94,7 @@ export default function TeamSection({ onApply }: TeamSectionProps): ReactNode {
 
         <div className="team-grid cin-container">
           {teamMembers.map((member, i) => (
-            <MemberCard key={member.id} member={member} idx={i} onClick={setSelectedMember} />
+            <MemberCard key={member.id} member={member} idx={i} onClick={setSel} />
           ))}
         </div>
 
@@ -121,9 +116,9 @@ export default function TeamSection({ onApply }: TeamSectionProps): ReactNode {
         </div>
       </div>
 
-      {selectedMember &&
+      {sel &&
         createPortal(
-          <TeamMemberModal member={selectedMember} onClose={() => setSelectedMember(null)} />,
+          <TeamMemberModal member={sel} onClose={() => setSel(null)} />,
           document.body
         )}
     </section>

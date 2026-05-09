@@ -2,8 +2,17 @@ import { type ClipboardEvent, type InputHTMLAttributes, type ReactNode, useEffec
 import { IconArrowLeft, IconArrowRight, IconBolt, IconShieldCheck, IconUsers } from '../../shared/Icons';
 import * as LucideIcons from 'lucide-react';
 
-function DynamicIcon({ name, ...props }) {
-  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+interface BackProps {
+  onBack: () => void;
+}
+
+function getErrorMessage(error: unknown, fallback: string): string {
+  if (error instanceof Error) return error.message;
+  return fallback;
+}
+
+function DynamicIcon({ name, ...props }: { name: string; [key: string]: any }) {
+  const Icon = (LucideIcons as any)[name] || LucideIcons.HelpCircle;
   return <Icon {...props} />;
 }
 

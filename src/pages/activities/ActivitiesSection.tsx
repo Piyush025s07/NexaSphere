@@ -1,5 +1,6 @@
 import { type MouseEvent, type ReactNode, useEffect, useRef } from 'react';
 import { activities } from '../../data/activitiesData';
+import type { ActivityKey, ActivitySummary } from '../../types/activities';
 import * as LucideIcons from 'lucide-react';
 
 function DynamicIcon({ name, ...props }) {
@@ -23,7 +24,7 @@ function ActivityCard({
   onNav: (type: 'activity', title: ActivityKey) => void;
 }): ReactNode {
   const ref      = useRef<HTMLDivElement | null>(null);
-  const agDelay  = AG_DELAYS[idx % AG_DELAYS.length];
+  const agDelay  = ANTI_GRAVITY_DELAYS[idx % ANTI_GRAVITY_DELAYS.length];
 
   const onMove = (e: MouseEvent<HTMLDivElement>): void => {
     const c = ref.current; if (!c) return;
@@ -55,9 +56,9 @@ function ActivityCard({
       style={{
         animationDelay: `${ANTI_GRAVITY_DELAYS[idx % ANTI_GRAVITY_DELAYS.length]}s`,
       }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleClick}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      onClick={click}
     >
       <div className="card-accent-line" />
       <div className="card-num">{String(idx + 1).padStart(2, '0')}</div>
@@ -72,6 +73,10 @@ function ActivityCard({
       <div className="corner-tl"/><div className="corner-br"/>
     </div>
   );
+}
+
+interface ActivitiesSectionProps {
+  onNavigate: (type: 'activity', title: ActivityKey) => void;
 }
 
 export default function ActivitiesSection({ onNavigate }: ActivitiesSectionProps): ReactNode {

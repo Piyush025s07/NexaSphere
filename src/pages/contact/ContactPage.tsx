@@ -61,15 +61,15 @@ function ContactCard({ icon, label, value, href, delay = 0, color }: {
       rel="noopener noreferrer"
       className="contact-card pop-flip shimmer"
       style={{ animationDelay: `${delay}s` }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
     >
       <div
         className="contact-card-glow-overlay"
         style={{
           position: 'absolute', inset: 0, borderRadius: 'inherit',
           background: `radial-gradient(ellipse at 50% 0%, ${color}18 0%, transparent 60%)`,
-          opacity: hovered ? 1 : 0, transition: 'opacity .3s',
+          opacity: hov ? 1 : 0, transition: 'opacity .3s',
           pointerEvents: 'none',
         }}
       />
@@ -80,7 +80,7 @@ function ContactCard({ icon, label, value, href, delay = 0, color }: {
         className="contact-card-icon-wrap"
         style={{
           background: `${color}15`, border: `2px solid ${color}40`,
-          boxShadow: hovered ? `0 0 24px ${color}40` : 'none',
+          boxShadow: hov ? `0 0 24px ${color}40` : 'none',
         }}
       >
         {icon}
@@ -91,7 +91,7 @@ function ContactCard({ icon, label, value, href, delay = 0, color }: {
 
       <div
         className="contact-card-cta"
-        style={{ color: color, opacity: hovered ? 1 : 0.55 }}
+        style={{ color: color, opacity: hov ? 1 : 0.55 }}
       >
         {href.startsWith('mailto') ? 'Send Email →' : href.includes('linkedin') ? 'Open LinkedIn →' : 'Join Chat →'}
       </div>

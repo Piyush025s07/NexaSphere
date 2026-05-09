@@ -1,15 +1,23 @@
 import { type ReactNode, useEffect } from 'react';
 import { events as fallbackEvents } from '../../data/eventsData';
 import { BannerOrbs } from '../../shared/MotionLayer';
+// @ts-expect-error
 import Skeleton from '../../shared/Skeleton';
 import * as LucideIcons from 'lucide-react';
 
-function DynamicIcon({ name, ...props }) {
-  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+function DynamicIcon({ name, ...props }: { name: string; [key: string]: any }) {
+  const Icon = (LucideIcons as any)[name] || LucideIcons.HelpCircle;
   return <Icon {...props} />;
 }
 
-export default function EventsPage({ onBack, onEventClick, events = fallbackEvents, loading = false }) {
+interface EventsPageProps {
+  onBack: () => void;
+  onEventClick: (event: any) => void;
+  events?: any[];
+  loading?: boolean;
+}
+
+export default function EventsPage({ onBack, onEventClick, events = fallbackEvents, loading = false }: EventsPageProps): ReactNode {
   useEffect(() => {
     window.scrollTo({ top: 0 });
     const obs = new IntersectionObserver(entries => {
@@ -128,7 +136,7 @@ export default function EventsPage({ onBack, onEventClick, events = fallbackEven
                             {ev.status === 'completed' ? <DynamicIcon name="CheckCircle" size={12} /> : <DynamicIcon name="Clock" size={12} />}
                             {ev.status === 'completed' ? 'Completed' : 'Upcoming'}
                           </span>
-                          {ev.tags?.map(t => (
+                          {ev.tags?.map((t: string) => (
                             <span key={t} style={{
                               fontSize: '.68rem', padding: '2px 10px', borderRadius: '12px',
                               background: 'var(--c2a)', color: 'var(--t1)', border: '1px solid var(--bdr)', fontWeight: 600,

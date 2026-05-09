@@ -1,9 +1,10 @@
+import { type ReactNode } from 'react';
 import nexasphereAppLogo from '../assets/images/logos/nexasphere-app-logo.png';
 import glbajajLogo       from '../assets/images/logos/glbajaj-logo.png';
 import * as LucideIcons from 'lucide-react';
 
-function DynamicIcon({ name, ...props }) {
-  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+function DynamicIcon({ name, ...props }: { name: string; [key: string]: any }) {
+  const Icon = (LucideIcons as any)[name] || LucideIcons.HelpCircle;
   return <Icon {...props} />;
 }
 

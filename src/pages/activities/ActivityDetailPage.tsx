@@ -1,13 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
+import type { ActivityEvent } from '../../types/api';
+import type { ActivityDetailPageProps } from '../../types/components';
+import { getErrorMessage } from '../../types/dom';
+// @ts-expect-error
 import Skeleton from '../../shared/Skeleton';
 import * as LucideIcons from 'lucide-react';
 
-function DynamicIcon({ name, ...props }) {
-  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+function DynamicIcon({ name, ...props }: { name: string; [key: string]: any }) {
+  const Icon = (LucideIcons as any)[name] || LucideIcons.HelpCircle;
   return <Icon {...props} />;
 }
 
-function HighlightCard({ highlight, color }) {
+function HighlightCard({ highlight, color }: { highlight: any; color: string }) {
   const rgb = hexToRgb(color);
   return (
     <div style={{
@@ -40,7 +44,7 @@ function HighlightCard({ highlight, color }) {
   );
 }
 
-function SectionTitle({ children, color, icon }) {
+function SectionTitle({ children, color, icon }: { children: any; color: any; icon?: any }) {
   return (
     <h2 style={{
       fontFamily: 'Orbitron, monospace', fontSize: '1.1rem', fontWeight: 700,
@@ -259,7 +263,7 @@ function EventCard({
           </p>
           {event.stats && (
             <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginBottom: '16px' }}>
-              {event.stats.map(s => (
+              {event.stats.map((s: StatLike) => (
                 <div key={s.label}>
                   <div style={{ fontFamily: 'Orbitron, monospace', fontSize: '1rem', fontWeight: 700, color: activityColor }}>
                     {s.value}
@@ -327,7 +331,7 @@ function UpcomingCard({ event, color }: { event: ActivityEvent; color: string })
   );
 }
 
-function hexToRgb(hex) {
+function hexToRgb(hex: string) {
   if (!hex || !hex.startsWith('#')) return '0,212,255';
   const r = parseInt(hex.slice(1,3),16);
   const g = parseInt(hex.slice(3,5),16);
@@ -338,7 +342,7 @@ function hexToRgb(hex) {
 // ════════════════════════════════════════
 export default function ActivityDetailPage({ activity, onBack, onSelectEvent }: ActivityDetailPageProps): ReactNode {
   const [mounted, setMounted] = useState(false);
-  const [manualEvents, setManualEvents] = useState([]);
+  const [manualEvents, setManualEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const apiBase = (import.meta?.env?.VITE_API_BASE || '').replace(/\/+$/, '');
@@ -361,7 +365,7 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }: 
   useEffect(() => {
     window.scrollTo({ top: 0 });
     setTimeout(() => setMounted(true), 50);
-    fetchDynamicEvents();
+    fetchManualEvents();
   }, [activity.title]);
 
   const askAuth = (): ActivityAuthPayload | null => {
@@ -540,7 +544,7 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }: 
               gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
               gap: '20px',
             }}>
-              {activity.highlights.map((h, i) => (
+              {activity.highlights.map((h: any, i: number) => (
                 <HighlightCard key={i} highlight={h} color={color} />
               ))}
             </div>
@@ -569,7 +573,7 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }: 
                 gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
                 gap: '16px',
               }}>
-                {activity.whatYouLearn.map((item, i) => (
+                {activity.whatYouLearn.map((item: any, i: number) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
                     <div style={{ color: color, marginTop: '2px' }}><DynamicIcon name="CheckCircle" size={18} /></div>
                     <div style={{ color: 'var(--t2)', fontSize: '0.95rem', lineHeight: 1.5 }}>{item}</div>
@@ -585,7 +589,7 @@ export default function ActivityDetailPage({ activity, onBack, onSelectEvent }: 
           <div style={{ marginBottom: '64px' }}>
             <SectionTitle color={color}>Tools & Technologies</SectionTitle>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-              {activity.tools.map(tool => (
+              {activity.tools.map((tool: any) => (
                 <span key={tool} style={{
                   padding: '8px 18px',
                   background: 'var(--card2)',

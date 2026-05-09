@@ -1,9 +1,51 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { type ClipboardEvent, type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import * as LucideIcons from 'lucide-react';
 import { IconArrowLeft, IconArrowRight, IconBolt, IconShieldCheck, IconUsers } from '../../shared/Icons';
 
-function DynamicIcon({ name, ...props }) {
-  const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+interface FieldProps {
+  label: string;
+  required?: boolean;
+  hint?: string;
+  children: ReactNode;
+}
+
+interface InputProps {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+  type?: string;
+  maxLength?: number;
+  inputMode?: 'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search';
+  onPaste?: (e: ClipboardEvent<HTMLInputElement>) => void;
+}
+
+interface TextAreaProps {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+  rows?: number;
+}
+
+interface StyledSelectProps {
+  value: string;
+  onChange: (v: string) => void;
+  children: ReactNode;
+  placeholder?: string;
+}
+
+interface PillRadioProps {
+  options: string[];
+  value: string;
+  onChange: (v: string) => void;
+}
+
+function getErrorMessage(error: unknown, fallback: string): string {
+  if (error instanceof Error) return error.message;
+  return fallback;
+}
+
+function DynamicIcon({ name, ...props }: { name: string; [key: string]: any }) {
+  const Icon = (LucideIcons as any)[name] || LucideIcons.HelpCircle;
   return <Icon {...props} />;
 }
 
@@ -110,7 +152,7 @@ function TextArea({ value, onChange, placeholder, rows = 5 }: TextAreaProps): Re
 
 const SELECT_ARROW = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23CC1111' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`;
 
-function StyledSelect({ value, onChange, children, placeholder }) {
+function StyledSelect({ value, onChange, children, placeholder }: StyledSelectProps): ReactNode {
   return (
     <select
       value={value}
@@ -143,7 +185,7 @@ function StyledSelect({ value, onChange, children, placeholder }) {
   );
 }
 
-function PillRadio({ options, value, onChange }) {
+function PillRadio({ options, value, onChange }: PillRadioProps): ReactNode {
   return (
     <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
       {options.map((opt: string) => {
@@ -169,13 +211,13 @@ function PillRadio({ options, value, onChange }) {
   );
 }
 
-export default function RecruitmentPage({ onBack }) {
+export default function RecruitmentPage({ onBack }: { onBack: () => void }): ReactNode {
   const [step, setStep]   = useState(0); 
   const [busy, setBusy]   = useState(false);
   const [done, setDone]   = useState(false);
   const [err,  setErr]    = useState('');
   const [alreadySubmitted, setAlreadySubmitted] = useState(false);
-  const topRef = useRef(null);
+  const topRef = useRef<HTMLDivElement | null>(null);
 
   
   useEffect(() => {
@@ -209,7 +251,7 @@ export default function RecruitmentPage({ onBack }) {
     portfolio:    '',
   });
 
-  function set(key, val) { setForm(f => ({ ...f, [key]: val })); }
+  function set(key: string, val: string): void { setForm(f => ({ ...f, [key]: val })); }
 
   
   const missingRequired = useMemo(() => {
