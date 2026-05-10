@@ -618,26 +618,54 @@ This is an **internal project** for the NexaSphere core team.
 
 <br/>
 
-### Workflow
+We welcome contributions from the community! Whether you're fixing bugs, adding features, or improving documentation, your help is appreciated.
 
-1. Clone the repository
-2. Create feature branch: `git checkout -b feature/your-feature`
-3. Make changes with quality standards
-4. Test thoroughly before submission
-5. Submit pull request for review
+### Getting Started
 
-<br/>
+1. **Read the Guidelines**: Check out our [Contributing Guide](CONTRIBUTING.md) for detailed instructions
+2. **Find an Issue**: Look for issues labeled `good first issue` or `help wanted`
+3. **Fork & Clone**: Fork the repository and clone it locally
+4. **Set Up Development**: Follow the [Local Development Setup](#-local-development-setup) instructions
+5. **Make Changes**: Implement your solution following our coding standards
+6. **Test & Submit**: Test thoroughly and submit a pull request
 
-### 📋 Code Quality Standards
+### Quick Contribution Steps
 
-- ✓ No `console.log` statements
-- ✓ Functions under 40 lines
-- ✓ Consistent naming conventions
-- ✓ Zero unused imports
-- ✓ Meaningful commit messages
-- ✓ Comprehensive documentation
+```bash
+# Fork and clone the repository
+git clone https://github.com/YOUR_USERNAME/nexasphere.git
+cd nexasphere
 
-<br/>
+# Set up development environment
+npm install
+# Follow setup instructions for backend services
+
+# Create feature branch
+git checkout -b feature/your-awesome-feature
+
+# Make changes, test, and commit
+git add .
+git commit -m "feat: add awesome feature"
+
+# Push and create pull request
+git push origin feature/your-awesome-feature
+```
+
+### Areas for Contribution
+
+- 🐛 **Bug Fixes**: Help us squash bugs
+- ✨ **New Features**: Implement new functionality
+- 📚 **Documentation**: Improve guides and docs
+- 🧪 **Testing**: Add or improve test coverage
+- 🎨 **UI/UX**: Enhance user interface and experience
+- 🚀 **Performance**: Optimize code and improve speed
+
+### Need Help?
+
+- 📖 Read our [Contributing Guide](CONTRIBUTING.md)
+- 🐛 Check existing [Issues](https://github.com/YOUR_ORG/nexasphere/issues)
+- 💬 Join our community discussions
+- 📧 Contact: nexasphere@glbajajgroup.org
 
 ---
 
