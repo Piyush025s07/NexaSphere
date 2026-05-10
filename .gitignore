@@ -21,3 +21,5 @@ Thumbs.db
 # Vite
 *.local
 .vercel
+
+server-java/target/
