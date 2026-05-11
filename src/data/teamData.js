@@ -108,7 +108,7 @@ export const teamMembers = [
     branch: 'CS (AI & ML)',
     section: 'F',
     photo: aryaImg,
-    linkedin: null,
+    linkedin: 'https://www.linkedin.com/in/arya-kaushik-1705a23b7/',
     email: 'kaushikarya87@gmail.com',
     whatsapp: null,
     instagram: null,
