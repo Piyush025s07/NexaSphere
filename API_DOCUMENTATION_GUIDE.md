@@ -114,6 +114,17 @@ GET /api/docs-info   → Documentation info
 - `GET /api/monitoring/errors/endpoint` - Errors by endpoint
 - `POST /api/monitoring/test-error` - Test error
 
+#### Recommendations (1 endpoint) (Python Core)
+
+**`GET /recommend/events/{user_id}`**
+- **Description:** Get top 5 recommended events for a specific user.
+- **Input:** `user_id` (Path parameter, string)
+- **Output:** JSON List of Event Objects (containing `id`, `name`, `tags`, and calculated `final_score`).
+- **Logic Used:** **Hybrid Content + Collaborative Filtering**.
+  1. *Content-Based*: Uses `TfidfVectorizer` and Cosine Similarity to match user interest keywords against event tags.
+  2. *Collaborative Filtering*: Finds similar users based on shared interests and boosts the score of events they have already joined.
+- **Performance Optimization:** Utilizes **Redis Caching**. Checks Redis before executing the ML model. If not cached, the model runs and stores the result in Redis for 60 minutes (3600 seconds) to prevent redundant recalculations.
+
 #### Admin & Notifications (4 endpoints)
 - `GET /api/admin/stream` - Real-time SSE stream
 - `GET /api/admin/stream/info` - Connected clients info
