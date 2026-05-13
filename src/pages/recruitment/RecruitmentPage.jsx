@@ -1,3 +1,4 @@
+import { useRecaptcha } from '../../shared/hooks/useRecaptcha';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { DynamicIcon, IconArrowLeft, IconArrowRight, IconBolt, IconShieldCheck, IconSpark, IconUsers } from '../../shared/Icons';
 import Footer from '../../shared/Footer';
@@ -384,6 +385,7 @@ export default function RecruitmentPage({ onBack }) {
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
   const [alreadySubmitted, setAlreadySubmitted] = useState(false);
+  const { getToken } = useRecaptcha();
   const [err, setErr] = useState('');
   const [showRoles, setShowRoles] = useState(false); 
   const topRef = useRef(null);
@@ -947,6 +949,8 @@ export default function RecruitmentPage({ onBack }) {
     setErr('');
     setBusy(true);
     try {
+      const recaptchaToken = await getToken('recruitment_form');
+
       const payload = {
         ...form,
         
@@ -956,6 +960,7 @@ export default function RecruitmentPage({ onBack }) {
         declarationAccepted: !!form.declarations?.truth && !!form.declarations?.time && !!form.declarations?.participate && !form.declarations?.disagree,
         declarationSelected: Object.entries(form.declarations || {}).filter(([,v])=>!!v).map(([k])=>k).join(', '),
         submittedAt: new Date().toISOString(),
+        recaptchaToken,
         userAgent: navigator.userAgent,
       };
 

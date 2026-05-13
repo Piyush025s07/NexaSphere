@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useRecaptcha } from '../../shared/hooks/useRecaptcha';
 import { DynamicIcon, IconArrowLeft, IconArrowRight, IconBolt, IconShieldCheck, IconUsers } from '../../shared/Icons';
 import Footer from '../../shared/Footer';
 
@@ -200,6 +201,7 @@ function MultiSelectChips({ options, values, onToggle }) {
 
 export default function MembershipPage({ onBack }) {
   const [step, setStep]   = useState(0); 
+  const { getToken } = useRecaptcha();
   const [busy, setBusy]   = useState(false);
   const [done, setDone]   = useState(false);
   const [err,  setErr]    = useState('');
@@ -274,6 +276,7 @@ export default function MembershipPage({ onBack }) {
     setErr('');
     setBusy(true);
     try {
+      
       const emailKey = String(form.whatsapp || '').trim(); 
       try {
         const existing = JSON.parse(localStorage.getItem('ns_member_emails') || '[]');
@@ -283,6 +286,8 @@ export default function MembershipPage({ onBack }) {
           return;
         }
       } catch { /* ignore */ }
+
+      const recaptchaToken = await getToken('membership_form');
 
       const payload = {
         fullName:     form.fullName.trim(),
@@ -298,6 +303,7 @@ export default function MembershipPage({ onBack }) {
         submittedAt:  new Date().toISOString(),
         userAgent:    navigator.userAgent,
         formType:     'membership',
+	recaptchaToken,
       };
 
       const res = await fetch(MEMBERSHIP_SCRIPT_URL, {

@@ -1,4 +1,5 @@
 const { google } = require('googleapis');
+const https = require('https');
 
 function requiredEnv(name) {
   const v = process.env[name];
@@ -23,6 +24,33 @@ function isPhoneish(s) {
   const v = String(s || '').trim();
   if (!v) return false;
   return /^\d{10}$/.test(v);
+}
+
+
+async function verifyRecaptcha(token) {
+  const secret = requiredEnv('RECAPTCHA_SECRET_KEY');
+  return new Promise((resolve, reject) => {
+    const params = new URLSearchParams({ secret, response: token }).toString();
+    const req = https.request(
+      { hostname: 'www.google.com', path: '/recaptcha/api/siteverify', method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Content-Length': Buffer.byteLength(params) } },
+      res => {
+        let data = '';
+        res.on('data', chunk => { data += chunk; });
+        res.on('end', () => {
+          try {
+            const json = JSON.parse(data);
+            if (!json.success) return reject(new Error('reCAPTCHA verification failed'));
+            if ((json.score || 0) < 0.5) return reject(new Error(`reCAPTCHA score too low (${json.score}). Submission rejected.`));
+            resolve(json.score);
+          } catch (e) { reject(e); }
+        });
+      }
+    );
+    req.on('error', reject);
+    req.write(params);
+    req.end();
+  });
 }
 
 async function readJson(req) {
@@ -97,6 +125,9 @@ module.exports = async (req, res) => {
     if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
     const body = await readJson(req);
+
+    if (!body.recaptchaToken) return res.status(400).json({ error: 'reCAPTCHA token missing' });
+    await verifyRecaptcha(body.recaptchaToken);
 
     const required = [
       'fullName',

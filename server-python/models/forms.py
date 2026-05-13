@@ -12,6 +12,7 @@ class FormSubmission(BaseModel):
     branch: str = Field(..., min_length=2, max_length=100, strip_whitespace=True)
     section: str = Field(..., max_length=1)
     reason: Optional[str] = Field(None, max_length=1000)
+    recaptcha_token: str = Field(..., min_length=1)
 
     @field_validator("name")
     @classmethod

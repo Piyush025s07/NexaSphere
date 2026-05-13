@@ -3,6 +3,7 @@ import logging
 from fastapi import APIRouter, HTTPException
 
 from models.forms import FormSubmission
+from services.recaptcha import verify_recaptcha
 from services.sheets import sheets_service
 from services.supabase import supabase_service
 
@@ -12,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 @router.post("/api/forms/membership")
 async def submit_membership(form: FormSubmission):
+    await verify_recaptcha(form.recaptcha_token, "membership_form")
     try:
         form_dict = form.model_dump()
 
@@ -29,6 +31,7 @@ async def submit_membership(form: FormSubmission):
 
 @router.post("/api/forms/recruitment")
 async def submit_recruitment(form: FormSubmission):
+    await verify_recaptcha(form.recaptcha_token, "recruitment_form")
     try:
         form_dict = form.model_dump()
 
@@ -46,6 +49,7 @@ async def submit_recruitment(form: FormSubmission):
 
 @router.post("/api/core-team/apply")
 async def submit_core_team_application(form: FormSubmission):
+    await verify_recaptcha(form.recaptcha_token, "core_team_form")
     try:
         form_dict = form.model_dump()
 
