@@ -8,18 +8,25 @@ function toSafeString(value, max = 4000) {
 
 function validateWhatsApp(str) {
   const v = String(str || '').trim();
-  if (!/^\d{10}$/.test(v)) throw new ValidationError('WhatsApp must be exactly 10 digits');
+  if (!/^\d{10}$/.test(v)) throw new Error('WhatsApp must be exactly 10 digits');
   return v;
 }
 
 function validateSection(str) {
   const v = String(str || '').trim().toUpperCase();
-  if (!/^[A-Z]$/.test(v)) throw new ValidationError('Section must be a single letter (A-Z)');
+  if (!/^[A-Z]$/.test(v)) throw new Error('Section must be a single letter (A-Z)');
   return v;
 }
 
 function isEmail(s) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s || '').trim());
+}
+
+function wrapAsync(fn) {
+  return (req, res) =>
+    Promise.resolve(fn(req, res)).catch((e) => {
+      res.status(500).json({ error: e?.message || 'Internal server error' });
+    });
 }
 
 export const adminListCoreTeamMembers = wrapAsync(async (req, res) => {
@@ -43,10 +50,10 @@ export const adminAddCoreTeamMember = wrapAsync(async (req, res) => {
   };
 
   if (!member.name || !member.role || !member.year || !member.branch || !member.email) {
-    throw new ValidationError('Missing required fields');
+    return res.status(400).json({ error: 'Missing required fields' });
   }
   if (!isEmail(member.email)) {
-    throw new ValidationError('Invalid email format');
+    return res.status(400).json({ error: 'Invalid email format' });
   }
 
   const saved = await coreTeamService.addMember(member);

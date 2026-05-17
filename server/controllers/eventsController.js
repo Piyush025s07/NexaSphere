@@ -15,7 +15,7 @@ export const adminListEvents = wrapAsync(async (req, res) => {
 export const adminCreateEvent = wrapAsync(async (req, res) => {
   const input = req.body || {};
   if (!input.name || !input.date || !input.description) {
-    throw new ValidationError('name, date and description are required');
+    return res.status(400).json({ error: 'name, date and description are required' });
   }
   const created = await eventsService.createEvent(input);
   return res.status(201).json({ ok: true, event: created });

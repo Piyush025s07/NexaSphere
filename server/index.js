@@ -168,20 +168,8 @@ function normalizePhone(value) {
   return String(value || '').replace(/[^\d]/g, '');
 }
 
-async function canManageActivityEvent({ name, email, phone, password }) {
-  const expectedPassword = process.env.ADMIN_EVENT_PASSWORD || 'Admin@123';
-  if (String(password || '') !== expectedPassword) return false;
-  const n = String(name || '').trim().toLowerCase();
-  const e = String(email || '').trim().toLowerCase();
-  const p = normalizePhone(phone);
-
-  const members = await listCoreTeamStore();
-  return members.some(m =>
-    m.name.toLowerCase() === n &&
-    m.email.toLowerCase() === e &&
-    normalizePhone(m.whatsapp) === p
-  );
-}
+app.on('CORE_TEAM_MEMBER_ADDED', (event) => console.log(`[EVENT] CORE_TEAM_MEMBER_ADDED:`, event));
+app.on('CORE_TEAM_MEMBER_REMOVED', (event) => console.log(`[EVENT] CORE_TEAM_MEMBER_REMOVED:`, event));
 
 async function listEventsStore() {
   if (HAS_SUPABASE) {
@@ -564,9 +552,6 @@ async function handleForm(formType, req, res) {
 app.post('/api/forms/membership', formsController.makeHandleForm('membership'));
 app.post('/api/forms/recruitment', formsController.makeHandleForm('recruitment'));
 app.post('/api/core-team/apply', formsController.makeHandleForm('core_team'));
-
-// Centralized error handler (should be last middleware)
-app.use(errorHandler);
 
 const port = Number(process.env.PORT || 8787);
 if (!process.env.VERCEL) {
