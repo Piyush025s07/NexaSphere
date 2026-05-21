@@ -1,6 +1,6 @@
 import { eventsService } from '../services/eventsService.js';
 import { wrapAsync } from '../middleware/asyncHandler.js';
-import { NotFoundError } from '../utils/errors.js';
+import { ValidationError, NotFoundError } from '../utils/errors.js';
 
 export const listEvents = wrapAsync(async (req, res) => {
   const events = await eventsService.listEvents();
