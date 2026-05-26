@@ -5,10 +5,12 @@ import Footer from '../../shared/Footer';
 import { DynamicIcon } from '../../shared/Icons';
 import PersonalizedFeed from '../../components/recommendation/PersonalizedFeed';
 import EventCalendarView from '../../components/calendar/EventCalendarView';
+import SchedulingAssistant from '../../components/scheduling/SchedulingAssistant';
 
 export default function EventsPage({ onBack, onEventClick, events = fallbackEvents }) {
   const [view, setView] = useState('timeline');
   const [recommendationView, setRecommendationView] = useState(false);
+  const [scheduleView, setScheduleView] = useState(false);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -61,16 +63,17 @@ export default function EventsPage({ onBack, onEventClick, events = fallbackEven
             onClick={() => {
               setView('timeline');
               setRecommendationView(false);
+              setScheduleView(false);
             }}
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
               padding: '8px 20px',
-              background: !recommendationView && view === 'timeline' ? 'var(--c1)' : 'transparent',
-              border: !recommendationView && view === 'timeline' ? 'none' : '1px solid var(--bdr)',
+              background: !recommendationView && !scheduleView && view === 'timeline' ? 'var(--c1)' : 'transparent',
+              border: !recommendationView && !scheduleView && view === 'timeline' ? 'none' : '1px solid var(--bdr)',
               borderRadius: '100px',
-              color: !recommendationView && view === 'timeline' ? 'white' : 'var(--t2)',
+              color: !recommendationView && !scheduleView && view === 'timeline' ? 'white' : 'var(--t2)',
               cursor: 'pointer',
               fontSize: '13px',
               fontWeight: 500,
@@ -85,16 +88,17 @@ export default function EventsPage({ onBack, onEventClick, events = fallbackEven
             onClick={() => {
               setView('calendar');
               setRecommendationView(false);
+              setScheduleView(false);
             }}
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
               padding: '8px 20px',
-              background: !recommendationView && view === 'calendar' ? 'var(--c1)' : 'transparent',
-              border: !recommendationView && view === 'calendar' ? 'none' : '1px solid var(--bdr)',
+              background: !recommendationView && !scheduleView && view === 'calendar' ? 'var(--c1)' : 'transparent',
+              border: !recommendationView && !scheduleView && view === 'calendar' ? 'none' : '1px solid var(--bdr)',
               borderRadius: '100px',
-              color: !recommendationView && view === 'calendar' ? 'white' : 'var(--t2)',
+              color: !recommendationView && !scheduleView && view === 'calendar' ? 'white' : 'var(--t2)',
               cursor: 'pointer',
               fontSize: '13px',
               fontWeight: 500,
@@ -109,6 +113,7 @@ export default function EventsPage({ onBack, onEventClick, events = fallbackEven
             onClick={() => {
               setRecommendationView(true);
               setView('timeline');
+              setScheduleView(false);
             }}
             style={{
               display: 'flex',
@@ -129,11 +134,38 @@ export default function EventsPage({ onBack, onEventClick, events = fallbackEven
             <DynamicIcon name="Sparkles" size={16} />
             For You
           </button>
+          <button
+            onClick={() => {
+              setScheduleView(true);
+              setView('timeline');
+              setRecommendationView(false);
+            }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '8px 20px',
+              background: scheduleView ? 'var(--c1)' : 'transparent',
+              border: scheduleView ? 'none' : '1px solid var(--bdr)',
+              borderRadius: '100px',
+              color: scheduleView ? 'white' : 'var(--t2)',
+              cursor: 'pointer',
+              fontSize: '13px',
+              fontWeight: 500,
+              transition: 'all 0.2s ease',
+              fontFamily: "'Rajdhani', sans-serif"
+            }}
+          >
+            <DynamicIcon name="Zap" size={16} />
+            Smart Schedule
+          </button>
         </div>
       </div>
 
       <div className="container">
-        {recommendationView ? (
+        {scheduleView ? (
+          <SchedulingAssistant events={events} onEventClick={onEventClick} />
+        ) : recommendationView ? (
           <PersonalizedFeed events={events} onEventClick={onEventClick} />
         ) : view === 'timeline' ? (
           <div className="events-timeline ns-reveal">
