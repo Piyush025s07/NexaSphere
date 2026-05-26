@@ -38,7 +38,7 @@ function CopyPopup({ value, onClose }: { value: string; onClose: () => void }): 
     <div className="copy-popup">
       <span className="copy-popup-value">{value}</span>
       <button className="copy-popup-btn" onClick={handleCopy}>
-        {copied ? '✅ Copied!' : '📋 Copy'}
+        {copied ? <><DynamicIcon name="CheckCircle" size={13} /> Copied!</> : <><DynamicIcon name="Clipboard" size={13} /> Copy</>}
       </button>
     </div>
   );
@@ -96,22 +96,22 @@ function ModalContent({ member, onClose }: { member: CoreTeamMember; onClose: ()
 
         <div className="modal-info" style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.08)' }}>
           <div className="modal-info-row">
-            <span className="modal-info-label">🎓 Year</span>
+            <span className="modal-info-label"><DynamicIcon name="GraduationCap" size={13} /> Year</span>
             <span className="modal-info-value">{member.year}</span>
           </div>
           <div className="modal-info-row">
-            <span className="modal-info-label">🔬 Branch</span>
+            <span className="modal-info-label"><DynamicIcon name="BookOpen" size={13} /> Branch</span>
             <span className="modal-info-value">{member.branch}</span>
           </div>
           <div className="modal-info-row">
-            <span className="modal-info-label">📋 Section</span>
+            <span className="modal-info-label"><DynamicIcon name="Clipboard" size={13} /> Section</span>
             <span className="modal-info-value">{member.section}</span>
           </div>
         </div>
 
         {member.achievements && member.achievements.length > 0 && (
           <div className="modal-achievements">
-            <div className="modal-achievements-title">🏆 Achievements</div>
+            <div className="modal-achievements-title"><DynamicIcon name="Trophy" size={15} /> Achievements</div>
             <ul className="modal-achievements-list">
               {member.achievements.map((achievement, index) => (
                 <li key={index} className="modal-achievement-item">{achievement}</li>
@@ -122,7 +122,7 @@ function ModalContent({ member, onClose }: { member: CoreTeamMember; onClose: ()
 
         {member.testimonials && member.testimonials.length > 0 && (
           <div className="modal-testimonials">
-            <div className="modal-testimonials-title">💬 Testimonials</div>
+            <div className="modal-testimonials-title"><DynamicIcon name="MessageCircle" size={15} /> Testimonials</div>
             <ul className="modal-testimonials-list">
               {member.testimonials.map((testimonial, index) => (
                 <li key={index} className="modal-testimonial-item">
@@ -143,7 +143,7 @@ function ModalContent({ member, onClose }: { member: CoreTeamMember; onClose: ()
                 rel="noopener noreferrer"
                 className="modal-social-btn btn-linkedin"
               >
-                🔗 LinkedIn
+                <DynamicIcon name="ExternalLink" size={14} /> LinkedIn
               </a>
             )}
 
@@ -156,7 +156,7 @@ function ModalContent({ member, onClose }: { member: CoreTeamMember; onClose: ()
                     setActivePopup(activePopup === 'whatsapp' ? null : 'whatsapp');
                   }}
                 >
-                  💬 WhatsApp
+                  <DynamicIcon name="MessageCircle" size={14} /> WhatsApp
                 </button>
                 {activePopup === 'whatsapp' && (
                   <CopyPopup value={whatsappValue} onClose={() => setActivePopup(null)} />
@@ -171,7 +171,7 @@ function ModalContent({ member, onClose }: { member: CoreTeamMember; onClose: ()
                 rel="noopener noreferrer"
                 className="modal-social-btn btn-instagram"
               >
-                📸 Instagram
+                <DynamicIcon name="Camera" size={14} /> Instagram
               </a>
             )}
 
@@ -184,7 +184,7 @@ function ModalContent({ member, onClose }: { member: CoreTeamMember; onClose: ()
                     setActivePopup(activePopup === 'email' ? null : 'email');
                   }}
                 >
-                  ✉️ Email
+                  <DynamicIcon name="Mail" size={14} /> Email
                 </button>
                 {activePopup === 'email' && (
                   <CopyPopup value={member.email} onClose={() => setActivePopup(null)} />
