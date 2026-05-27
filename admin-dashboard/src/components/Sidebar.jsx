@@ -27,6 +27,7 @@ export function Sidebar() {
             to={to}
             end={to === '/dashboard'}
             className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+            onClick={onClose}
           >
             <AdminIcon name={icon} size={16} />
             {label}

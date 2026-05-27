@@ -173,7 +173,7 @@ button, a { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .ag:nth-child(12) { animation-delay: -3.8s; }
 
 @media (max-width: 768px) {
-  .section   { padding: 68px 0; }
+  .section   { padding: 34px 0; }
   .container { padding: 0 16px; }
   #back-to-top { bottom: 18px; left: 18px; }
 }

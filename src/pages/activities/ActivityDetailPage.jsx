@@ -33,37 +33,11 @@ function Counter({ value, suffix = '' }) {
 
 function GlitchText({ text, color }) {
   return (
-    <span style={{ position: 'relative', display: 'inline-block' }}
+    <span style={{ position: 'relative', display: 'inline-block', color }}
       className="glitch-text"
       data-text={text}
     >
       {text}
-      <style>{`
-        .glitch-text { color: ${color}; }
-        .glitch-text::before, .glitch-text::after {
-          content: attr(data-text);
-          position: absolute;
-          top: 0; left: 0;
-          width: 100%; height: 100%;
-          opacity: 0;
-        }
-        .glitch-text:hover::before {
-          opacity: 0.7;
-          color: #ff0080;
-          clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
-          transform: translateX(-3px);
-          animation: glitch1 0.3s steps(2) infinite;
-        }
-        .glitch-text:hover::after {
-          opacity: 0.7;
-          color: #00ffff;
-          clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
-          transform: translateX(3px);
-          animation: glitch2 0.3s steps(2) infinite;
-        }
-        @keyframes glitch1 { 0%{transform:translateX(-3px)} 50%{transform:translateX(3px)} 100%{transform:translateX(-3px)} }
-        @keyframes glitch2 { 0%{transform:translateX(3px)} 50%{transform:translateX(-3px)} 100%{transform:translateX(3px)} }
-      `}</style>
     </span>
   );
 }
@@ -90,20 +64,12 @@ function FloatingOrbs({ color }) {
 
 function ScanLine({ color }) {
   return (
-    <>
-      <style>{`
-        @keyframes scanline {
-          0% { top: -2px; }
-          100% { top: 100%; }
-        }
-      `}</style>
-      <div style={{
-        position: 'absolute', left: 0, right: 0, height: '2px',
-        background: `linear-gradient(90deg, transparent, ${color}, transparent)`,
-        opacity: 0.3, pointerEvents: 'none', zIndex: 0,
-        animation: 'scanline 4s linear infinite',
-      }} />
-    </>
+    <div style={{
+      position: 'absolute', left: 0, right: 0, height: '2px',
+      background: `linear-gradient(90deg, transparent, ${color}, transparent)`,
+      opacity: 0.3, pointerEvents: 'none', zIndex: 0,
+      animation: 'scanline 4s linear infinite',
+    }} />
   );
 }
 
@@ -142,13 +108,6 @@ function EventCard({ event, activityColor, onSelect, onDelete }) {
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px' }}>
         <div style={{ flex: 1 }}>
-          <button
-            className="btn btn-outline btn-sm"
-            onClick={(e) => { e.stopPropagation(); onDelete && onDelete(event.id); }}
-            style={{ marginBottom: '8px' }}
-          >
-            Delete this event
-          </button>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px', flexWrap: 'wrap' }}>
             <h3 style={{
               fontFamily: 'Orbitron, monospace', fontSize: '0.95rem', fontWeight: 700,
@@ -183,13 +142,6 @@ function EventCard({ event, activityColor, onSelect, onDelete }) {
               ))}
             </div>
           )}
-          <button
-            className="btn btn-outline btn-sm"
-            onClick={(e) => { e.stopPropagation(); onDelete && onDelete(event.id); }}
-            style={{ marginTop: '12px' }}
-          >
-            Delete this event
-          </button>
         </div>
         <div style={{
           color: activityColor, fontSize: '1.4rem', flexShrink: 0,
