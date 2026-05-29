@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import './styles/themes.css';
 import './styles/globals.css';
 import './styles/animations.css';
@@ -37,8 +37,8 @@ import EventsPage from './pages/events/EventsPage';
 import AboutPage from './pages/about/AboutPage';
 import TeamPage from './pages/team/TeamPage';
 import ContactPage from './pages/contact/ContactPage';
-import RecruitmentPage from './pages/recruitment/RecruitmentPage';
-import MembershipPage from './pages/membership/MembershipPage';
+const RecruitmentPage = lazy(() => import('./pages/recruitment/RecruitmentPage'));
+const MembershipPage = lazy(() => import('./pages/membership/MembershipPage'));
 
 import { activityPages } from './data/activities/index';
 import { events as fallbackEvents } from './data/eventsData';
@@ -89,6 +89,19 @@ export default function App() {
   return (
     <>
       <Chatbot />
+      {!cinDone && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 9998,
+          background: theme === 'light' ? '#FFFFFF' : '#0A0A0A',
+          display: 'flex', alignItems: 'center', justifyContent: 'center'
+        }}>
+          <div className="skeleton-fallback-spinner" style={{
+            width: '40px', height: '40px', borderRadius: '50%',
+            border: '2px dashed rgba(230,57,70,0.35)', borderTopColor: '#E63946',
+            animation: 'animate-spin 1s linear infinite'
+          }} />
+        </div>
+      )}
       {!cinDone && <CinematicOpening theme={theme} onDone={() => setCinDone(true)} />}
 
       {cinDone && (
@@ -127,13 +140,17 @@ export default function App() {
 
           {page?.type === 'apply' && (
             <PageIn k="pg-apply">
-              <RecruitmentPage onBack={actions.onBackHome} />
+              <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', padding: '80px 0', color: 'var(--text-muted)' }}><div className="skeleton-fallback-spinner" style={{ width: '40px', height: '40px', borderRadius: '50%', border: '2.5px dashed rgba(230,57,70,0.3)', borderTopColor: '#E63946', animation: 'animate-spin 1s linear infinite' }} /></div>}>
+                <RecruitmentPage onBack={actions.onBackHome} />
+              </Suspense>
             </PageIn>
           )}
 
           {page?.type === 'join' && (
             <PageIn k="pg-join">
-              <MembershipPage onBack={actions.onBackHome} />
+              <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', padding: '80px 0', color: 'var(--text-muted)' }}><div className="skeleton-fallback-spinner" style={{ width: '40px', height: '40px', borderRadius: '50%', border: '2.5px dashed rgba(230,57,70,0.3)', borderTopColor: '#E63946', animation: 'animate-spin 1s linear infinite' }} /></div>}>
+                <MembershipPage onBack={actions.onBackHome} />
+              </Suspense>
             </PageIn>
           )}
 
