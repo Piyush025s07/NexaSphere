@@ -64,7 +64,7 @@ function ContactCard({ icon, label, value, href, delay = 0, color }) {
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
     >
-      <style>{`@keyframes contactBurst{to{transform:translate(var(--tx),var(--ty));opacity:0}}`}</style>
+      {/* contactBurst keyframes are defined globally in ContactPage.css to avoid layout paint recalculations */}
 
       
       <div style={{
