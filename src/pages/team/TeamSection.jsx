@@ -18,7 +18,11 @@ function MemberCard({ member, idx, onClick }) {
   };
   const onLeave = () => {
     const c = ref.current; if (!c) return;
-    c.style.transform = ''; c.style.animationPlayState = '';
+    c.style.transform = 'translateY(0) rotateX(0deg) rotateY(0deg) scale(1)';
+    c.style.animationPlayState = '';
+    setTimeout(() => {
+      if (c) c.style.transform = '';
+    }, 150);
   };
   const click = () => {
     const c = ref.current;

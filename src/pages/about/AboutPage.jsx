@@ -153,7 +153,7 @@ export default function AboutPage({ onBack }) {
             {milestones.map((m, i) => (
               <div className="timeline-item" key={i}>
                 <div className="timeline-dot" style={i === 2 ? { background: 'transparent', border: '2px solid var(--c1)', animation: 'pulse 2s infinite' } : {}} />
-                <div className={`timeline-card fired ${i % 2 === 0 ? 'pop-left' : 'pop-right'}`} style={{ animationDelay: `${i * .12}s` }}>
+                <div className={`timeline-card ${i % 2 === 0 ? 'pop-left' : 'pop-right'}`} style={{ animationDelay: `${i * .12}s` }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
                     <span style={{ display: 'flex', color: 'var(--c1)' }}><DynamicIcon name={m.icon} size={22} /></span>
                     <div>

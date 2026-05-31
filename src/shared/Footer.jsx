@@ -10,7 +10,6 @@ export default function Footer({ onAdmin }) {
     <footer className="ns-footer">
       <div className="container">
         <div className="ns-footer-inner">
-          <div className="ns-footer-divider"/>
           <div className="ns-footer-logos">
             <img src={BRAND_LOGO_ICON} alt="NexaSphere" className="ns-footer-logo-ns ns-footer-logo-mobile"/>
             <img src={BRAND_LOGO_FULL} alt="NexaSphere" className="ns-nav-logo-ns ns-nav-logo-icon"/>
