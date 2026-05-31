@@ -6,6 +6,7 @@ import { DynamicIcon } from '../../shared/Icons';
 import PersonalizedFeed from '../../components/recommendation/PersonalizedFeed';
 import EventCalendarView from '../../components/calendar/EventCalendarView';
 import SchedulingAssistant from '../../components/scheduling/SchedulingAssistant';
+import useIntersectionObserver from '../../hooks/useIntersectionObserver';
 
 export default function EventsPage({ onBack, onEventClick, events = fallbackEvents }) {
   const [view, setView] = useState('timeline');
@@ -16,13 +17,14 @@ export default function EventsPage({ onBack, onEventClick, events = fallbackEven
     return new Date(a.date) - new Date(b.date);
   });
 
+  useIntersectionObserver(
+    '#events-page .pop-in, #events-page .pop-left, #events-page .pop-right, #events-page .pop-word',
+    'fired',
+    { threshold: 0, rootMargin: '0px 0px -10px 0px' }
+  );
+
   useEffect(() => {
     window.scrollTo({ top: 0 });
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('fired'); obs.unobserve(e.target); } });
-    }, { threshold: 0, rootMargin: '0px 0px -10px 0px' });
-    document.querySelectorAll('#events-page .pop-in, #events-page .pop-left, #events-page .pop-right, #events-page .pop-word').forEach(el => obs.observe(el));
-    return () => obs.disconnect();
   }, []);
 
   return (
