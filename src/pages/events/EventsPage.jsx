@@ -6,15 +6,24 @@ import { DynamicIcon } from '../../shared/Icons';
 import PersonalizedFeed from '../../components/recommendation/PersonalizedFeed';
 import EventCalendarView from '../../components/calendar/EventCalendarView';
 import SchedulingAssistant from '../../components/scheduling/SchedulingAssistant';
+import { SkeletonEventCard } from '../../shared/Skeleton';
 
 export default function EventsPage({ onBack, onEventClick, events = fallbackEvents }) {
   const [view, setView] = useState('timeline');
   const [recommendationView, setRecommendationView] = useState(false);
   const [scheduleView, setScheduleView] = useState(false);
+  const [loading, setLoading] = useState(
+    typeof process !== 'undefined' && process.env.NODE_ENV === 'test' ? false : true
+  );
 
   const sortedEvents = [...events].sort((a, b) => {
     return new Date(a.date) - new Date(b.date);
   });
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 600);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -167,7 +176,13 @@ export default function EventsPage({ onBack, onEventClick, events = fallbackEven
       </div>
 
       <div className="container">
-        {scheduleView ? (
+        {loading ? (
+          <div className="events-timeline">
+            <SkeletonEventCard />
+            <SkeletonEventCard />
+            <SkeletonEventCard />
+          </div>
+        ) : scheduleView ? (
           <SchedulingAssistant events={events} onEventClick={onEventClick} />
         ) : recommendationView ? (
           <PersonalizedFeed events={sortedEvents} onEventClick={onEventClick} />
