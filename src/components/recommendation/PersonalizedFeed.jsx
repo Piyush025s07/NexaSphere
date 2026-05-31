@@ -16,6 +16,22 @@ export default function PersonalizedFeed({ events, onEventClick }) {
   const [showSimilar, setShowSimilar] = useState(false);
   const [similarEventsList, setSimilarEventsList] = useState([]);
 
+  useEffect(() => {
+    if (showSimilar) {
+      document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e) => {
+        if (e.key === 'Escape') {
+          setShowSimilar(false);
+        }
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = '';
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+  }, [showSimilar]);
+
   const handleEventClick = (event) => {
     trackEvent(event.id, 'view', {
       category: event.category,
@@ -167,19 +183,25 @@ export default function PersonalizedFeed({ events, onEventClick }) {
 
       {/* Similar Events Modal */}
       {showSimilar && selectedEvent && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(0,0,0,0.9)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000,
-          backdropFilter: 'blur(4px)'
-        }} onClick={() => setShowSimilar(false)}>
+        <div 
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0,0,0,0.9)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            backdropFilter: 'blur(4px)'
+          }} 
+          onClick={() => setShowSimilar(false)}
+        >
           <div style={{
             background: '#1A1A1A',
             borderRadius: '24px',
@@ -190,7 +212,7 @@ export default function PersonalizedFeed({ events, onEventClick }) {
             overflow: 'auto'
           }} onClick={(e) => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <h3 style={{ color: '#FFFFFF', fontSize: '18px', fontWeight: 'bold' }}>
+              <h3 id="modal-title" style={{ color: '#FFFFFF', fontSize: '18px', fontWeight: 'bold' }}>
                 Similar to "{selectedEvent.name}"
               </h3>
               <button onClick={() => setShowSimilar(false)} style={{
