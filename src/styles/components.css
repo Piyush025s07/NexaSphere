@@ -807,3 +807,26 @@
   .ns-nav-logo-full { display: block; }
 }
 [data-theme="light"] .ns-nav-logo-full { filter: drop-shadow(0 0 6px rgba(230,57,70,0.2)); }
+
+/* ── Dashboard Responsiveness & Spacing ───────────────────────────────────── */
+.dashboard-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.dashboard-two-col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+@media (max-width: 768px) {
+  .dashboard-two-col {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+

@@ -168,7 +168,7 @@ export default function DashboardPage({ onBack }) {
         )}
 
         {/* Stats Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', marginBottom: '48px' }}>
+        <div className="dashboard-stats-grid">
           <div style={{ background: '#1A1A1A', border: '1px solid #2A2A2A', borderRadius: '12px', padding: '24px' }}>
             <p style={{ color: '#9CA3AF', fontSize: '13px', marginBottom: '8px' }}>Total Points</p>
             <p style={{ fontSize: '32px', fontWeight: 'bold', color: '#FFFFFF' }}>{metrics.totalPoints}</p>
@@ -217,7 +217,7 @@ export default function DashboardPage({ onBack }) {
         </div>
 
         {/* Two Column Layout */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px', marginBottom: '48px' }}>
+        <div className="dashboard-two-col">
           
           {/* Activity Timeline */}
           <div style={{ background: '#1A1A1A', border: '1px solid #2A2A2A', borderRadius: '16px', overflow: 'hidden' }}>
